@@ -81,7 +81,7 @@ fun UpdaterCard(
                     }
                     if (uiState.isDownloading) {
                         CircularProgressIndicator(
-                            progress = uiState.progressBar,
+                            progress = { uiState.progressBar },
                             modifier = progressBarModifier,
                         )
                     }

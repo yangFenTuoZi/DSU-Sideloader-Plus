@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import vegabobo.dsusideloader.R
 import vegabobo.dsusideloader.preferences.AppPrefs
 import vegabobo.dsusideloader.ui.components.ApplicationScreen

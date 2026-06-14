@@ -5,13 +5,12 @@ fun getReleaseSigningConfig(): File {
 }
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
-    id("com.mikepenz.aboutlibraries.plugin")
-    id("kotlinx-serialization")
-    id("org.jmailen.kotlinter")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.aboutlibraries)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -20,7 +19,7 @@ android {
     val packageName: String by rootProject.extra
 
     namespace = packageName
-    compileSdk = 33
+    compileSdk = 37
 
     defaultConfig {
         this.applicationId = packageName
@@ -71,34 +70,15 @@ android {
                 "proguard-rules.pro"
             )
         }
-        create("miniDebug") {
-            signingConfig = signingConfigs.getByName("debug")
-            isDebuggable = true
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    kotlin {
-        jvmToolchain(17)
-    }
     buildFeatures {
         aidl = true
         buildConfig = true
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.6"
     }
     packaging {
         resources {
@@ -109,60 +89,50 @@ android {
 
 aboutLibraries {
     // Remove the "generated" timestamp to allow for reproducible builds
-    excludeFields = arrayOf("generated")
-}
-
-kotlin.sourceSets.all {
-    languageSettings.optIn("kotlin.RequiresOptIn")
+    export {
+        excludeFields.add("generated")
+    }
 }
 
 dependencies {
-    implementation(AndroidX.appCompat)
-    implementation(AndroidX.dataStore.preferences)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.documentfile)
 
-    implementation(AndroidX.activity.compose)
-    implementation(AndroidX.lifecycle.viewModelCompose)
-    implementation(AndroidX.navigation.compose)
-    implementation(AndroidX.compose.material3)
-    implementation(AndroidX.compose.material)
-    implementation(AndroidX.compose.runtime.liveData)
-    implementation(AndroidX.compose.material.icons.extended)
-    implementation(AndroidX.compose.ui.toolingPreview)
-    implementation(AndroidX.compose.ui)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.ui)
 
-    implementation(AndroidX.core.ktx)
-    implementation(AndroidX.fragment.ktx)
-    implementation(AndroidX.preference.ktx)
-    implementation(AndroidX.lifecycle.runtime.ktx)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
-    implementation(Google.dagger.hilt.android)
-    implementation(AndroidX.hilt.navigationCompose)
-    kapt(Google.dagger.hilt.compiler)
+    implementation(libs.google.dagger.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.google.dagger.hilt.compiler)
 
-    implementation(Google.android.material)
-    implementation(KotlinX.serialization.json)
+    implementation(libs.google.android.material)
+    implementation(libs.kotlinx.serialization.json)
 
-    implementation("com.github.topjohnwu.libsu:core:_")
-    implementation("com.github.topjohnwu.libsu:service:_")
+    implementation(libs.libsu.core)
+    implementation(libs.libsu.service)
 
-    implementation("org.tukaani:xz:_")
-    implementation("org.apache.commons:commons-compress:_")
+    implementation(libs.xz)
+    implementation(libs.commons.compress)
 
-    implementation("com.mikepenz:aboutlibraries-core:_")
+    implementation(libs.aboutlibraries.core)
 
-    implementation("dev.rikka.shizuku:api:_")
-    implementation("dev.rikka.shizuku:provider:_")
+    implementation(libs.shizuku.api)
+    implementation(libs.shizuku.provider)
 
-    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:_")
+    implementation(libs.hiddenapibypass)
 
     compileOnly(project(":hidden-api-stub"))
-}
-
-tasks {
-    "preBuild" {
-        dependsOn(lintKotlin)
-    }
-    "lintKotlin" {
-        dependsOn(formatKotlin)
-    }
 }

@@ -12,6 +12,7 @@ import java.net.URL
 import java.nio.ByteBuffer
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -125,7 +126,7 @@ class DSUInstaller(
                 prevInstalledSize = installedSize
                 publishProgress(installedSize, partitionSize, partition)
             }
-            runBlocking { delay(100) }
+            runBlocking { delay(100.milliseconds) }
         }
         if (!closePartition()) {
             Log.e(tag, "Failed to install $partition partition")
@@ -199,7 +200,7 @@ class DSUInstaller(
         while (zis.nextEntry.also { entry = it } != null) {
             val fileName = entry!!.name
             if (shouldInstallEntry(fileName)) {
-                installImageFromAnEntry(entry!!, zis)
+                installImageFromAnEntry(entry, zis)
             } else {
                 Log.d(tag, "$fileName installation is not supported, skip it.")
             }
@@ -224,21 +225,21 @@ class DSUInstaller(
             onInstallationError(InstallationStep.ERROR_ALREADY_RUNNING_DYN_OS, "")
             return
         }
-        
+
         // When preserving userdata, we allow updating an installed DSU
         if (isInstalled && !preserveUserdata) {
             onInstallationError(InstallationStep.ERROR_REQUIRES_DISCARD_DSU, "")
             return
         }
-        
+
         forceStopDSU()
         startInstallation(Constants.DEFAULT_SLOT)
-        
+
         // Only create userdata partition when preserve is disabled OR DSU is not installed
         if (!preserveUserdata || !isInstalled) {
             installWritablePartition("userdata", userdataSize)
         }
-        
+
         when (dsuInstallation.type) {
             Type.SINGLE_SYSTEM_IMAGE -> {
                 installImage(

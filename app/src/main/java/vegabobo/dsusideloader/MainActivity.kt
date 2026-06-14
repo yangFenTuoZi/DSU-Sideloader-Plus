@@ -104,9 +104,9 @@ class MainActivity : ComponentActivity(), Shizuku.OnRequestPermissionResultListe
     companion object {
         init {
             // Shell.enableVerboseLogging = BuildConfig.DEBUG
+            Shell.enableLegacyStderrRedirection = true
             Shell.setDefaultBuilder(
                 Shell.Builder.create()
-                    .setFlags(Shell.FLAG_REDIRECT_STDERR)
                     .setTimeout(10),
             )
         }
@@ -121,7 +121,7 @@ class MainActivity : ComponentActivity(), Shizuku.OnRequestPermissionResultListe
 
         if (session.getOperationMode() == OperationMode.SYSTEM) {
             val service = Intent(this, PrivilegedSystemService::class.java)
-            bindService(service, PrivilegedProvider.connection, Context.BIND_AUTO_CREATE)
+            bindService(service, PrivilegedProvider.connection, BIND_AUTO_CREATE)
             return
         }
 

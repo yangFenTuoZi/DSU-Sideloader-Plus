@@ -34,7 +34,7 @@ fun ProgressableCardContent(
         } else {
             LinearProgressIndicator(
                 modifier = progressBarModifier,
-                progress = progress,
+                progress = { progress },
             )
         }
     }

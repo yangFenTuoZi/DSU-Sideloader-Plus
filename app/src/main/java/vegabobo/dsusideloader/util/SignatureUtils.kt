@@ -26,23 +26,25 @@ fun Application.isBuildSignedByAuthor(): Boolean {
 
 private fun getSignatures(pm: PackageManager, packageName: String): List<String?>? {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        val packageInfo = pm.getPackageInfo(
+        val signingInfo = pm.getPackageInfo(
             packageName,
             PackageManager.PackageInfoFlags.of(PackageManager.GET_SIGNING_CERTIFICATES.toLong()),
-        )
-        if (packageInfo.signingInfo.hasMultipleSigners()) {
-            return signatureDigest(packageInfo.signingInfo.apkContentsSigners)
+        ).signingInfo ?: return null
+
+        if (signingInfo.hasMultipleSigners()) {
+            return signatureDigest(signingInfo.apkContentsSigners)
         }
-        return signatureDigest(packageInfo.signingInfo.signingCertificateHistory)
+        return signatureDigest(signingInfo.signingCertificateHistory)
     }
 
     @Suppress("DEPRECATION")
-    val packageInfo =
-        pm.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES) ?: return null
-    if (packageInfo.signingInfo.hasMultipleSigners()) {
-        return signatureDigest(packageInfo.signingInfo.apkContentsSigners)
+    val signingInfo =
+        pm.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)?.signingInfo
+            ?: return null
+    if (signingInfo.hasMultipleSigners()) {
+        return signatureDigest(signingInfo.apkContentsSigners)
     }
-    return signatureDigest(packageInfo.signingInfo.signingCertificateHistory)
+    return signatureDigest(signingInfo.signingCertificateHistory)
 }
 
 private fun signatureDigest(sig: Signature): String? {
@@ -51,7 +53,7 @@ private fun signatureDigest(sig: Signature): String? {
         val md = MessageDigest.getInstance("SHA1")
         val digest = md.digest(signature)
         return digest.joinToString("") { "%02x".format(it) }
-    } catch (e: NoSuchAlgorithmException) {
+    } catch (_: NoSuchAlgorithmException) {
         null
     }
 }

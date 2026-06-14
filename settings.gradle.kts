@@ -5,9 +5,8 @@ pluginManagement {
         mavenCentral()
     }
 }
-
 plugins {
-    id("de.fayard.refreshVersions") version "0.51.0"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
 dependencyResolutionManagement {
@@ -15,7 +14,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { setUrl("https://jitpack.io") }
+        maven { url = uri("https://jitpack.io") }
     }
 }
 rootProject.name = "DSU Helper"
