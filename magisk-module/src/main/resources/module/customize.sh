@@ -10,7 +10,7 @@ function install_gsid() {
 
   # Minimum allowed for allocation is hardcoded in gsid binary
   # values below are used by DSU Sideloader UI, nothing else
-  echo "ro.vegabobo.dsusideloader.gsid_min_alloc=0.20" >>$MODPATH/system.prop
+  echo "ro.yangfentuozi.dsusideloaderplus.gsid_min_alloc=0.20" >>$MODPATH/system.prop
 }
 
 function clean() {

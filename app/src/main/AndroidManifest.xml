@@ -54,7 +54,7 @@
         </provider>
 
         <service
-            android:name="vegabobo.dsusideloader.service.PrivilegedSystemService"
+            android:name="yangfentuozi.dsusideloaderplus.service.PrivilegedSystemService"
             android:enabled="true"
             android:exported="false" />
 

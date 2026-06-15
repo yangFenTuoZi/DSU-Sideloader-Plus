@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "vegabobo.dsusideloader.hiddenapistub"
+    namespace = "yangfentuozi.dsusideloaderplus.hiddenapistub"
     compileSdk = 37
 
     defaultConfig {

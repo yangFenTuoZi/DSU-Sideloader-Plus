@@ -22,7 +22,7 @@ Google GSIs: https://developer.android.com/topic/generic-system-image/releases
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/vegabobo.dsusideloader/)
+     height="80">](https://f-droid.org/packages/yangfentuozi.dsusideloaderplus/)
 
 Or download the latest APK from the [Releases Section](https://github.com/VegaBobo/DSU-Sideloader/releases/latest).
 For testing builds, you can check artifacts at [Actions](https://github.com/VegaBobo/DSU-Sideloader/actions) tab
@@ -76,7 +76,7 @@ DSU Sideloader support multiple operation modes, they will define how our app wi
 <br>
 ⁴ Feature not supported on Android 10.
 <br>
-⁵ Experimental feature, built-in installer code is [here](https://github.com/VegaBobo/DSU-Sideloader/blob/master/app/src/main/java/vegabobo/dsusideloader/installer/root/DSUInstaller.kt).
+⁵ Experimental feature, built-in installer code is [here](https://github.com/VegaBobo/DSU-Sideloader/blob/master/app/src/main/java/yangfentuozi/dsusideloaderplus/installer/root/DSUInstaller.kt).
 <br>
 ⁶ Module including custom gsid binary is optional, changes made to AOSP gsid binary can be found [here](https://github.com/VegaBobo/DSU-Sideloader/tree/master/magisk-module/src/main/resources/aosp_patches).
 
