@@ -26,4 +26,4 @@ if [[ $API -le "33" && $API -ge "29" ]] &&
 fi
 
 echo "- Installing DSU Sideloader Plus..."
-pm install $MODPATH/system/priv-app/DSUSideloader/ReleaseDSUSideloader.apk
+pm install $MODPATH/system/priv-app/DSUSideloaderPlus/DSUSideloaderPlus.apk
